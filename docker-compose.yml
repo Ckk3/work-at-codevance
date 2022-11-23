@@ -1,15 +1,37 @@
+version: '3.8'
+
 services:
   db:
     image: postgres
+    restart: always
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - codevance-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "800:80"
+    depends_on:
+      - db
+    networks:
+      - codevance-network
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
       - ./codevance:/code
     ports:
@@ -20,3 +42,9 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+    networks:
+      - codevance-network
+
+networks: 
+  codevance-network:
+    driver: bridge
