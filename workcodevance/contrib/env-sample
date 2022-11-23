@@ -1,0 +1,15 @@
+# Django defaults
+SECRET_KEY='====mY_sEcReT_kEy===='
+DEBUG=True
+ALLOWED_HOSTS=*
+DATABASE_URL=postgres://workcodevance:workcodevance@localhost:5432/workcodevance
+
+# Configure o email com sendgrid
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+
+DBBACKUP_STORAGE_OPTIONS=../backup
+
+STORAGE_IS_ACTIVATE=false
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
+AWS_STORAGE_BUCKET_NAME=your-static-bucket

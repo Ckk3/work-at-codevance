@@ -1,0 +1,8 @@
+-r requirements.txt
+autopep8
+model-bakery
+pytest
+pytest-cov
+pytest-django
+requests-mock
+ipython
