@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Pagamentos{% endblock %}
+
+{% block content %}
+<div class="offset-1 col-10 list-div">
+    <h1>Pagamentos</h1>
+    
+    <a href="/newpayment">    
+        <div class="col-2 add-div">
+            <i class="fas fa-plus"></i> Adicionar Pagamentos
+        </div>
+    </a>
+    <div class="col-12 filter-div">
+        <span>Filtrar por:</span>
+        <select name="filter" id="filter" class="form-control">
+            <option value="">Escolha uma Opção</option>
+            <option value="done">Tarefas Concluídas</option>
+            <option value="doing">Tarefas pendentes</option>
+        </select>
+    </div>
+    
+    {% comment %} <ul class="task-list">
+        {% for task in tasks %}
+        {% if task.done == '1' %}
+            <li class="task-item">
+        {% else %}
+            <li class="task-item done">
+        {% endif %}
+            <span><a href="/tasks/{{task.id}}">{{task.title}}</a></span>
+            <span><a href="/deletetask/{{task.id}}" class="delete-btn"><i class="fas fa-trash"></i></a></span>
+            <span><a href="/edittask/{{task.id}}"><i class="fas fa-edit"></i></a></span>
+            <span><a href="/changestatus/{{task.id}}"><i class="fas fa-check"></i></a></span>
+        </li>
+        {% endfor %}
+    </ul> {% endcomment %}
+    {% comment %} <div class="pagination">
+        <span class="step-links">
+            {% if tasks.has_previous %}
+                <a href="?page={{tasks.previous_page_number}}"><i class="fas fa-arrow-left"></i></a>
+            {% endif %}
+
+            <span class="current">
+                {{tasks.number}} de {{tasks.paginator.num_pages}}
+            </span>
+
+            {% if tasks.has_next %}
+                <a href="?page={{tasks.next_page_number}}"><i class="fas fa-arrow-right"></i></a>
+            {% endif %}
+
+        </span>
+    </div> {% endcomment %}
+</div>
+
+{% endblock %}
