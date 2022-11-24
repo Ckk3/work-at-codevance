@@ -30,7 +30,7 @@ services:
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    #command: python manage.py runserver 0.0.0.0:8000
     restart: always
     volumes:
       - ./codevance:/code
@@ -44,6 +44,7 @@ services:
       - db
     networks:
       - codevance-network
+    tty: true
 
 networks: 
   codevance-network:
