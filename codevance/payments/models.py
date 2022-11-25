@@ -12,8 +12,8 @@ def get_sentinel_user():
 class Payment(models.Model):
     
 
-    emission_date = models.DateTimeField()
-    due_date = models.DateTimeField()
+    emission_date = models.DateField()
+    due_date = models.DateField()
     original_value = models.DecimalField(max_digits=14, decimal_places=2)
     provider = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     provider_social_reason = models.TextField(max_length=100)
