@@ -16,10 +16,10 @@
         {% for payment in payments %}
         {% if payment.paid == False %}
             <li class="payment-item">
-            <span><a href="/payments/{{payment.id}}">{{payment.emission_date}} {{payment.due_date}} R${{payment.original_value}} </a></span>
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}}</a></span>
         {% else %}
             <li class="payment-item done">
-            <span><a href="/payments/{{payment.id}}">{{payment.emission_date}} {{payment.due_date}} R${{payment.original_value}} Pago em {{payment.payment_day}}</a></span>
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Pago em {{payment.payment_date}}</a></span>
         {% endif %}
         </li>
         {% endfor %}
