@@ -12,20 +12,18 @@
         </div>
     </a>
     
-    {% comment %} <ul class="task-list">
-        {% for task in tasks %}
-        {% if task.done == '1' %}
-            <li class="task-item">
+    <ul class="payment-list">
+        {% for payment in payments %}
+        {% if payment.paid == False %}
+            <li class="payment-item">
+            <span><a href="/payments/{{payment.id}}">{{payment.emission_date}} {{payment.due_date}} R${{payment.original_value}} </a></span>
         {% else %}
-            <li class="task-item done">
+            <li class="payment-item done">
+            <span><a href="/payments/{{payment.id}}">{{payment.emission_date}} {{payment.due_date}} R${{payment.original_value}} Pago em {{payment.payment_day}}</a></span>
         {% endif %}
-            <span><a href="/tasks/{{task.id}}">{{task.title}}</a></span>
-            <span><a href="/deletetask/{{task.id}}" class="delete-btn"><i class="fas fa-trash"></i></a></span>
-            <span><a href="/edittask/{{task.id}}"><i class="fas fa-edit"></i></a></span>
-            <span><a href="/changestatus/{{task.id}}"><i class="fas fa-check"></i></a></span>
         </li>
         {% endfor %}
-    </ul> {% endcomment %}
+    </ul>
     {% comment %} <div class="pagination">
         <span class="step-links">
             {% if tasks.has_previous %}

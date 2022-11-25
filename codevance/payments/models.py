@@ -14,7 +14,9 @@ class Payment(models.Model):
 
     emission_date = models.DateField()
     due_date = models.DateField()
+    payment_date = models.DateField()
     original_value = models.DecimalField(max_digits=14, decimal_places=2)
+    paid = models.Boolean()
     provider = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
     provider_social_reason = models.TextField(max_length=100)
     provider_cnpj = models.TextField(max_length=25)
