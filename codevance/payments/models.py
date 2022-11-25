@@ -12,7 +12,7 @@ class Payment(models.Model):
     
     emission_date = models.DateField()
     due_date = models.DateField()
-    payment_date = models.DateField()
+    payment_date = models.DateField(null=True)
     original_value = models.DecimalField(max_digits=14, decimal_places=2)
     paid = models.BooleanField(default=False)
     provider = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user))
