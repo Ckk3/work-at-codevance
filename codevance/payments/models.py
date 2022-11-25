@@ -20,5 +20,9 @@ class Payment(models.Model):
     provider_cnpj = models.TextField(max_length=25)
 
 
+    def __str__(self):
+        return f'{self.provider_social_reason} -> {self.due_date}, R$ {self.original_value}'
+
+
 
 
