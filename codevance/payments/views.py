@@ -4,14 +4,19 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 import datetime
 from decimal import Decimal
+from braces.views import GroupRequiredMixin
 
 
 @login_required
 def redirect_view(request):
     """This view search for user group and redirect to payments (if fornecedor) or anticipates (if operador or admin)
     """
-
-    return redirect('/payments')
+    # get all user groups
+    user_groups = list(request.user.groups.values_list('name', flat = True))
+    
+    if 'fornecedores' in user_groups:
+        return redirect('/payments')
+    
 
 
 
@@ -72,6 +77,7 @@ def anticipate_info_view(request, id):
     if payment.paid == False:
         original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
         return render(request, 'payments/antecipate_payment_view.html', {'payment': payment, 'original_value': original_value, 'new_value': new_value, 'original_due_date': original_due_date, 'new_due_date': new_due_date, 'days_delta':days_delta})
+
 
 def get_antecipate_value(payment):
     """
