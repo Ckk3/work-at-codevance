@@ -21,7 +21,8 @@ def payment_view(request, id):
     """
     View Funcition that return payment info"""
     #payment = get_object_or_404(Payment, pk=id, provider=request.user)
-    payment = get_object_or_404(Payment, pk=id)
+    #get payment and require
+    payment = get_object_or_404(Payment, pk=id) 
     return render(request, 'payments/payment_view.html', {'payment': payment})
 
 
