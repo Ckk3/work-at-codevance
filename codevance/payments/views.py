@@ -76,6 +76,23 @@ def payment_view(request, id):
     return render(request, 'payments/payment_view.html', {'payment': payment, 'original_value': original_value, 'new_value': new_value, 'original_due_date': original_due_date, 'new_due_date': new_due_date, 'days_delta':days_delta})
 
 @login_required
+def anticipate_view(request, id):
+    """
+    View Funcition that return payment info"""
+
+    #Check if user has permission to see this page
+    if not check_group(request=request, group='operadores'):
+        return render_not_allowed(request)
+    
+    #get payment by id or return 404
+    anticipate = get_object_or_404(Anticipate, pk=id) 
+    payment = get_object_or_404(Payment, pk=anticipate.payment_id)
+
+
+    return render(request, 'payments/anticipate_view.html', {'anticipate': anticipate, 'payment':payment})
+
+
+@login_required
 def anticipate_request_view(request, id):
     """Request anticipate payment"""
 

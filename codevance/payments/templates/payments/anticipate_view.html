@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Informações da Antecipacao{% endblock %}
+
+{% block content %}
+<div class="offset-1 col-10 list-div">
+    <h1>Informações da Antecipacao {{anticipate.id}}</h1>
+    <h2>Ração Social: {{payment.provider_social_reason}}</h2>
+    <p>Data do pedido de adiantamento: {{anticipate.request_date}}</p>
+    <p>Data de vencimento original: {{anticipate.old_due_date}}</p>
+    <p>Nova data de vencimento : {{anticipate.new_due_date}}</p>
+    <p>Valor Original: R$ {{anticipate.original_value}}</p>
+    <p>Novo Valor: R$ {{anticipate.new_value}}</p>
+    <p>Status: {{anticipate.status}}</p>
+    
+</div>
+
+{% endblock %}

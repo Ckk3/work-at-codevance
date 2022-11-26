@@ -11,31 +11,31 @@
 
             {% if anticipate.status == 'not_reviewed' %}
             <li class="anticipate-item not_reviewed">
-            <span><a href="/anticipate/{{anticipate.id}}">Razao social: {{payment.provider_social_reason}} Venc. Antigo: {{anticipate.old_due_date}}, Novo Venc. {{anticipate.new_due_date}} Valor Antigo: R${{anticipate.original_value}} Novo Valor: R${{anticipate.new_value}} Status: {{anticipate.status}}</a></span>
+            <span><a href="/anticipate/{{anticipate.id}}">Venc. Antigo: {{anticipate.old_due_date}}, Novo Venc. {{anticipate.new_due_date}} Valor Antigo: R${{anticipate.original_value}} Novo Valor: R${{anticipate.new_value}} Status: {{anticipate.status}}</a></span>
 
             {% elif anticipate.status == 'accepted' %}
             <li class="anticipate-item accepted">
-            <span><a href="/anticipate/{{anticipate.id}}">Razao social: {{payment.provider_social_reason}} Venc. Antigo: {{anticipate.old_due_date}}, Novo Venc. {{anticipate.new_due_date}} Valor Antigo: R${{anticipate.original_value}} Novo Valor: R${{anticipate.new_value}} Status: {{anticipate.status}}</a></span>
+            <span><a href="/anticipate/{{anticipate.id}}">Venc. Antigo: {{anticipate.old_due_date}}, Novo Venc. {{anticipate.new_due_date}} Valor Antigo: R${{anticipate.original_value}} Novo Valor: R${{anticipate.new_value}} Status: {{anticipate.status}}</a></span>
 
             {% elif anticipate.status == 'denied' %}
             <li class="anticipate-item denied">
-            <span><a href="/anticipate/{{anticipate.id}}">Razao social: {{payment.provider_social_reason}} Venc. Antigo: {{anticipate.old_due_date}}, Novo Venc. {{anticipate.new_due_date}} Valor Antigo: R${{anticipate.original_value}} Novo Valor: R${{anticipate.new_value}} Status: {{anticipate.status}}</a></span>
+            <span><a href="/anticipate/{{anticipate.id}}">Venc. Antigo: {{anticipate.old_due_date}}, Novo Venc. {{anticipate.new_due_date}} Valor Antigo: R${{anticipate.original_value}} Novo Valor: R${{anticipate.new_value}} Status: {{anticipate.status}}</a></span>
             {% endif %}
         </li>
         {% endfor %}
     </ul>
     <div class="pagination">
         <span class="step-links">
-            {% if payments.has_previous %}
-                <a href="?page={{payments.previous_page_number}}"><i class="fas fa-arrow-left"></i></a>
+            {% if anticipates.has_previous %}
+                <a href="?page={{anticipates.previous_page_number}}"><i class="fas fa-arrow-left"></i></a>
             {% endif %}
 
             <span class="current">
-                {{payments.number}} de {{payments.paginator.num_pages}}
+                {{anticipates.number}} de {{anticipates.paginator.num_pages}}
             </span>
 
-            {% if payments.has_next %}
-                <a href="?page={{payments.next_page_number}}"><i class="fas fa-arrow-right"></i></a>
+            {% if anticipates.has_next %}
+                <a href="?page={{anticipates.next_page_number}}"><i class="fas fa-arrow-right"></i></a>
             {% endif %}
         </span>
     </div>
