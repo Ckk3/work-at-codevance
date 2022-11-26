@@ -9,6 +9,17 @@
     <p>Data da Emissão: {{payment.emission_date}}</p>
     <p>Data de vencimento: {{payment.due_date}}</p>
     <p>Status: {{payment.status}}</p>
+    <h2>Antecipação</h2>
+    <a href="/anticipateinfo/{{payment.id}}">
+        <div class="col-2 add-div">
+            <p>Data da Emissão: {{antecipate.final_value}}</p>
+        </div>
+    </a>
+    <a href="/anticipaterequest/{{payment.id}}">
+        <div class="col-2 add-div">
+            <i class="fas fa-check"></i> Solicitar Antecipação
+        </div>
+    </a>
 </div>
 
 {% endblock %}

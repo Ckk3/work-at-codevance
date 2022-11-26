@@ -20,4 +20,6 @@ from . import views
 urlpatterns = [
     path('', views.payment_list, name='payment-list'),
     path('payment/<int:id>', views.payment_view, name='payment-view'),
+    path('anticipaterequest/<int:id>', views.anticipate_request_view, name='payment-view'),
+    path('anticipateinfo/<int:id>', views.anticipate_info_view, name='payment-view'),
 ]

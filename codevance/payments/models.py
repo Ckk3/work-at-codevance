@@ -30,7 +30,7 @@ class Payment(models.Model):
 
 
     def __str__(self):
-        return f'{self.provider_social_reason} -> {self.due_date}, R$ {self.original_value} Status: {self.status}'
+        return f'{self.id} - {self.provider_social_reason} -> {self.due_date}, R$ {self.original_value} Status: {self.status}'
 
 
 
