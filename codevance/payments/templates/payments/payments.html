@@ -15,8 +15,24 @@
     <ul class="payment-list">
         {% for payment in payments %}
         {% if payment.paid == False %}
-            <li class="payment-item">
-            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}}</a></span>
+
+            {% if payment.status == 'not_requested' %}
+            <li class="payment-item not_requested">
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+
+            {% elif payment.status == 'requested' %}
+            <li class="payment-item requested">
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+
+            {% elif payment.status == 'accepted' %}
+            <li class="payment-item accepted">
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+
+            {% elif payment.status == 'denied' %}
+            <li class="payment-item denied">
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+
+            {% endif %}
         {% else %}
             <li class="payment-item done">
             <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Pago em {{payment.payment_date}}</a></span>
@@ -24,22 +40,22 @@
         </li>
         {% endfor %}
     </ul>
-    {% comment %} <div class="pagination">
+    <div class="pagination">
         <span class="step-links">
-            {% if tasks.has_previous %}
-                <a href="?page={{tasks.previous_page_number}}"><i class="fas fa-arrow-left"></i></a>
+            {% if payments.has_previous %}
+                <a href="?page={{payments.previous_page_number}}"><i class="fas fa-arrow-left"></i></a>
             {% endif %}
 
             <span class="current">
-                {{tasks.number}} de {{tasks.paginator.num_pages}}
+                {{payments.number}} de {{payments.paginator.num_pages}}
             </span>
 
-            {% if tasks.has_next %}
-                <a href="?page={{tasks.next_page_number}}"><i class="fas fa-arrow-right"></i></a>
+            {% if payments.has_next %}
+                <a href="?page={{payments.next_page_number}}"><i class="fas fa-arrow-right"></i></a>
             {% endif %}
 
         </span>
-    </div> {% endcomment %}
+    </div>
 </div>
 
 {% endblock %}

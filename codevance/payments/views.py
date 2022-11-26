@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 def payment_list(request):
     """View function that return the page with user payment list"""
     #payment_list = Payment.objects.all().order_by('-due_date').filter(provider=request.user)
-    payment_list = Payment.objects.all().order_by('-due_date')
+    payment_list = Payment.objects.all().order_by('-due_date', 'paid')
     
     paginator = Paginator(payment_list, 3)
 

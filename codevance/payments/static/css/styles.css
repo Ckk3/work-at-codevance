@@ -1,10 +1,21 @@
 .payment-item.done{
-    color: green;
-    background-color: rgba(0, 128, 0, 0.177);
+    background-color: rgba(64, 153, 255, 0.315);
 }
 
 
-.payment-item{
-    color: red;
-    background-color: rgba(255, 0, 0, 0.171);
+.payment-item.not_requested{
+    background-color: whitesmoke;
 }
+
+.payment-item.accepted{
+    background-color: rgba(56, 255, 6, 0.253);
+}
+
+.payment-item.requested{
+    background-color: rgb(255, 217, 0);
+}
+
+.payment-item.denied{
+    background-color: rgba(255, 0, 0, 0.192);
+}
+
