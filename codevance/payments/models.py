@@ -51,7 +51,7 @@ class Anticipate(models.Model):
     status = models.TextField(max_length=20, choices=STATUS, default='not_reviewed')
 
     def __str__(self):
-        return f'{self.id} - Pago: {self.payment.paid} -> {self.old_due_date}, R$ {self.original_value} -> R$ {self.new_value} Status: {self.status}'
+        return f'{self.id} - Pago: {self.payment.paid} -> {self.old_due_date} to {self.new_due_date}, R$ {self.original_value} -> R$ {self.new_value} Status: {self.status}'
 
 
 

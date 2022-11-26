@@ -39,6 +39,27 @@ def payment_list(request):
 
     return render(request, 'payments/payments.html', {'payments': payments})
 
+
+@login_required
+def anticipate_list(request):
+    """View that shows anticipate to every operator"""
+
+    #Check if user has permission to see this page
+    if not check_group(request=request, group='operadores'):
+        return render_not_allowed(request)
+
+    anticipate_list = Anticipate.objects.all().order_by('-new_due_date', 'status')
+    
+    paginator = Paginator(anticipate_list, 3)
+
+    page = request.GET.get('page')
+
+    anticipates = paginator.get_page(page)
+
+    return render(request, 'payments/anticipates.html', {'anticipates': anticipates})
+
+
+
 @login_required
 def payment_view(request, id):
     """
@@ -98,7 +119,7 @@ def anticipate_info_view(request, id):
 
     if payment.paid == False:
         original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
-        return render(request, 'payments/antecipate_payment_view.html', {'payment': payment, 'original_value': original_value, 'new_value': new_value, 'original_due_date': original_due_date, 'new_due_date': new_due_date, 'days_delta':days_delta})
+        return render(request, 'payments/anticipate_payment_view.html', {'payment': payment, 'original_value': original_value, 'new_value': new_value, 'original_due_date': original_due_date, 'new_due_date': new_due_date, 'days_delta':days_delta})
 
 
 def get_antecipate_value(payment):
