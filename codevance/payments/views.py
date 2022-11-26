@@ -5,8 +5,19 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from decimal import Decimal
 
+
+@login_required
+def redirect_view(request):
+    """This view search for user group and redirect to payments (if fornecedor) or anticipates (if operador or admin)
+    """
+
+    return redirect('/payments')
+
+
+
 @login_required
 def payment_list(request):
+    """View that shows payment to every user"""
     payment_list = Payment.objects.all().order_by('-due_date', 'paid').filter(provider=request.user)
     
     paginator = Paginator(payment_list, 3)
