@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 import datetime
 from decimal import Decimal
-from braces.views import GroupRequiredMixin
+
 
 
 @login_required
@@ -16,11 +16,19 @@ def redirect_view(request):
         return redirect('/payments')
     elif check_group(request=request, group='operadores'):
         return redirect('/anticipates')
+    else:
+        return render_not_allowed(request)
     
 
 @login_required
 def payment_list(request):
     """View that shows payment to every user"""
+
+    #Check if user has permission to see this page
+    if not check_group(request=request, group='fornecedores'):
+        return render_not_allowed(request)
+
+
     payment_list = Payment.objects.all().order_by('-due_date', 'paid').filter(provider=request.user)
     
     paginator = Paginator(payment_list, 3)
@@ -35,6 +43,12 @@ def payment_list(request):
 def payment_view(request, id):
     """
     View Funcition that return payment info"""
+
+    #Check if user has permission to see this page
+    if not check_group(request=request, group='fornecedores'):
+        return render_not_allowed(request)
+    
+    #get payment by id or return 404
     payment = get_object_or_404(Payment, pk=id, provider=request.user) 
 
     original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
@@ -43,6 +57,11 @@ def payment_view(request, id):
 @login_required
 def anticipate_request_view(request, id):
     """Request anticipate payment"""
+
+    #Check if user has permission to see this page
+    if not check_group(request=request, group='fornecedores'):
+        return render_not_allowed(request)
+
     #get payment
     payment = get_object_or_404(Payment, pk=id, provider=request.user)
     # Get antecipate informations
@@ -70,6 +89,11 @@ def anticipate_request_view(request, id):
 @login_required
 def anticipate_info_view(request, id):
     """Calculate antecipated info about a payment"""
+
+    #Check if user has permission to see this page
+    if not check_group(request=request, group='fornecedores'):
+        return render_not_allowed(request)
+
     payment = get_object_or_404(Payment, pk=id)
 
     if payment.paid == False:
@@ -108,7 +132,8 @@ def check_group(request, group):
     return group in user_groups
 
 
-
+def render_not_allowed(request):
+    return render(request, 'payments/not_allowed.html', {'not': 'allowed'})
 
 
 
