@@ -25,7 +25,9 @@ def payment_view(request, id):
     #payment = get_object_or_404(Payment, pk=id, provider=request.user)
     #get payment and require
     payment = get_object_or_404(Payment, pk=id) 
-    return render(request, 'payments/payment_view.html', {'payment': payment})
+
+    original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
+    return render(request, 'payments/payment_view.html', {'payment': payment, 'original_value': original_value, 'new_value': new_value, 'original_due_date': original_due_date, 'new_due_date': new_due_date, 'days_delta':days_delta})
 
 def anticipate_request_view(request, id):
     pass
