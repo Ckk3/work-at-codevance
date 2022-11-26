@@ -28,7 +28,27 @@ def payment_view(request, id):
 
 @login_required
 def anticipate_request_view(request, id):
-    pass
+    """Request anticipate payment"""
+    #get payment
+    payment = get_object_or_404(Payment, pk=id, provider=request.user)
+    # Get antecipate informations
+    original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
+
+    anticipate = Anticipate()
+
+    if anticipate.is_valid():
+        # Create new anticipate
+        new_anticipate = anticipate.save()
+        # Add new anticipate
+        new_anticipate.save()
+        # Change payment status to requested
+        payment.status = 'requested'
+        payment.save()
+
+        #messages.info(request, 'Anticipate request done')
+        #Return to home
+        return redirect('/')
+
 
 @login_required
 def anticipate_info_view(request, id):
