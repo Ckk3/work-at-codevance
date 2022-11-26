@@ -12,13 +12,11 @@ def redirect_view(request):
     """This view search for user group and redirect to payments (if fornecedor) or anticipates (if operador or admin)
     """
     # get all user groups
-    user_groups = list(request.user.groups.values_list('name', flat = True))
-    
-    if 'fornecedores' in user_groups:
+    if check_group(request=request, group='fornecedores'):
         return redirect('/payments')
+    elif check_group(request=request, group='operadores'):
+        return redirect('/anticipates')
     
-
-
 
 @login_required
 def payment_list(request):
@@ -98,6 +96,16 @@ def get_antecipate_value(payment):
 
     return original_value, new_value, original_due_date, new_due_date, days_delta
 
+
+def check_group(request, group):
+    """
+    Check if user is in the group.
+
+    Return False if user is not in the group
+    """
+    user_groups = list(request.user.groups.values_list('name', flat = True))
+    
+    return group in user_groups
 
 
 

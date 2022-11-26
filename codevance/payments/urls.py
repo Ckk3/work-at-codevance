@@ -20,6 +20,7 @@ from . import views
 urlpatterns = [
     path('', views.redirect_view, name='redirect-view'),
     path('payments', views.payment_list, name='payment-list'),
+    #path('anticipates', views.anticipate_list, name='anticipate-list'),
     path('payment/<int:id>', views.payment_view, name='payment-view'),
     path('anticipaterequest/<int:id>', views.anticipate_request_view, name='payment-view'),
     path('anticipateinfo/<int:id>', views.anticipate_info_view, name='payment-view'),
