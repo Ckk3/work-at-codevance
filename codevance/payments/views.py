@@ -44,6 +44,7 @@ def payment_list(request):
 
     payments = paginator.get_page(page)
 
+    logger.info(f'List all payments from user {request.user.id}')
     return render(request, 'payments/payments.html', {'payments': payments})
 
 
@@ -63,6 +64,7 @@ def anticipate_list(request):
 
     anticipates = paginator.get_page(page)
 
+    logger.info(f'List all anticipates to operador with id {request.user.id}')
     return render(request, 'payments/anticipates.html', {'anticipates': anticipates})
 
 
@@ -75,14 +77,16 @@ def payment_view(request, id):
     #Check if user has permission to see this page
     if not check_group(request=request, group='fornecedores'):
         return render_not_allowed(request)
-    
+
     #get payment by id or return 404
     payment = get_object_or_404(Payment, pk=id, provider=request.user) 
 
+    logger.info(f'Show payment {payment.id} info')
     #Verify if can anticipate the payment
     can_anticipate = check_can_anticipate(payment=payment)
 
     original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
+
     return render(request, 'payments/payment_view.html', {'payment': payment, 'original_value': original_value, 'new_value': new_value, 'original_due_date': original_due_date, 'new_due_date': new_due_date, 'days_delta':days_delta, 'can_anticipate':can_anticipate})
 
 @login_required
@@ -98,6 +102,7 @@ def anticipate_view(request, id):
     anticipate = get_object_or_404(Anticipate, pk=id) 
     payment = get_object_or_404(Payment, pk=anticipate.payment_id)
 
+    logger.info(f'Show anticipate {anticipate.id} info')
 
     return render(request, 'payments/anticipate_view.html', {'anticipate': anticipate, 'payment':payment})
 
@@ -110,6 +115,7 @@ def new_payment(request):
     #Check if is a POST to a new payment
     if request.method == 'POST':
         # Verify if form is valid
+        logger.info(f'Receiving POST of new payment')
         form = PaymentForm(request.POST)
 
         if form.is_valid():
@@ -119,11 +125,12 @@ def new_payment(request):
             new_payment.provider = request.user
             new_payment.old_due_date = new_payment.due_date
             new_payment.save()
-
+            logger.info(f'Saved new payment {new_payment.id} to database')
             #Return to home
             return redirect('/payments')
     
     else:
+        logger.info(f'Show form to create a new payment')
         form = PaymentForm()
         return render(request, 'payments/add_payment.html', {'form': form})
 
@@ -146,12 +153,20 @@ def edit_anticipate_status(request, id, new_status):
         payment.due_date = anticipate.new_due_date
         payment.save()
         anticipate.save()
+        # Add to log
+        logger.info(f'operator {request.user.id} changed anticipate {id} status to accepted')
+        logger.info(f'Changed payment {anticipate.payment_id} status to accepted')
+        #Show message to user
         messages.info(request, 'Status changed to "accept" sucessfully')
     elif new_status == 'denied':
         anticipate.status = 'denied'
         payment.status = 'denied'
         anticipate.save()
         payment.save()
+        # Add to log
+        logger.info(f'operator {request.user.id} changed anticipate {id} status to denied')
+        logger.info(f'Changed payment {anticipate.payment_id} status to denied')
+        # Show messahe to user
         messages.info(request, 'Status changed to "denied" sucessfully')
     else:
         #Invalid option
@@ -170,6 +185,7 @@ def anticipate_request_view(request, id):
 
     #get payment
     payment = get_object_or_404(Payment, pk=id, provider=request.user)
+    logger.info(f'Verify anticipate request to payment {payment.id}')
 
     #Check if can anticipate the payment 
     if not check_can_anticipate(payment=payment):
@@ -191,7 +207,7 @@ def anticipate_request_view(request, id):
     # Change payment status to requested
     payment.status = 'requested'
     payment.save()
-
+    logger.info(f'Added new anticipate to db, id: {new_anticipate.id}')
     #messages.info(request, 'Anticipate request done')
     #Return to home
     return redirect('/')
@@ -229,6 +245,7 @@ def get_antecipate_value(payment):
     # Calcute new value using
     new_value = round(Decimal(original_value - (original_value * Decimal(((3/100) / 30) * days_delta))), ndigits=2)
 
+    logger.info(f'get anticipate info to payment {payment.id}')
     return original_value, new_value, original_due_date, new_due_date, days_delta
 
 
@@ -239,16 +256,20 @@ def check_group(request, group) -> bool:
     Return False if user is not in the group
     """
     user_groups = list(request.user.groups.values_list('name', flat = True))
-    
+    logger.info(f'Check user {request.user.id} groups')
     return group in user_groups
 
 
 def render_not_allowed(request):
+    """Render Not allowed page """
+    logger.info(f'user: {request.user.id} with the groups {list(request.user.groups.values_list("name", flat = True))} tried to access unauthorized url')
+
     return render(request, 'payments/not_allowed.html', {'not': 'allowed'})
 
 
 def check_can_anticipate(payment) -> bool:
     """Check if a payment can be anticipated verifying due_date"""
+    logger.info(f'Check if payment {payment.id} can be anticipated')
     return payment.due_date >= datetime.date.today()
 
 
