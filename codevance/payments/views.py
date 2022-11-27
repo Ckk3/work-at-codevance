@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 import datetime
 from decimal import Decimal
+from .forms import PaymentForm
 
 
 
@@ -90,6 +91,32 @@ def anticipate_view(request, id):
 
 
     return render(request, 'payments/anticipate_view.html', {'anticipate': anticipate, 'payment':payment})
+
+@login_required
+def new_payment(request):
+    """View to add a new payment"""
+
+    if not check_group(request=request, group='fornecedores'):
+        return render_not_allowed(request)
+
+    #Check if is a POST to a new payment
+    if request.method == 'POST':
+        # Verify if form is valid
+        form = PaymentForm(request.POST)
+
+        if form.is_valid():
+            #Create payment but not save, still data to add
+            new_payment = form.save(commit=False)
+            # Add missing data
+            new_payment.provider = request.user
+            new_payment.save()
+
+            #Return to home
+            return redirect('/payments')
+    
+    else:
+        form = PaymentForm()
+        return render(request, 'payments/add_payment.html', {'form': form})
 
 
 @login_required
