@@ -76,10 +76,7 @@ def payment_view(request, id):
     payment = get_object_or_404(Payment, pk=id, provider=request.user) 
 
     #Verify if can anticipate the payment
-    today = datetime.date.today()
-    can_anticipate = False
-    if payment.due_date >= today:
-        can_anticipate = True
+    can_anticipate = check_can_anticipate(payment=payment)
 
     original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
     return render(request, 'payments/payment_view.html', {'payment': payment, 'original_value': original_value, 'new_value': new_value, 'original_due_date': original_due_date, 'new_due_date': new_due_date, 'days_delta':days_delta, 'can_anticipate':can_anticipate})
@@ -169,6 +166,11 @@ def anticipate_request_view(request, id):
 
     #get payment
     payment = get_object_or_404(Payment, pk=id, provider=request.user)
+
+    #Check if can anticipate the payment
+    if not check_can_anticipate(payment=payment):
+        return render_not_allowed(request)
+
     # Get antecipate informations
     original_value, new_value, original_due_date, new_due_date, days_delta = get_antecipate_value(payment=payment)
 
@@ -226,7 +228,7 @@ def get_antecipate_value(payment):
     return original_value, new_value, original_due_date, new_due_date, days_delta
 
 
-def check_group(request, group):
+def check_group(request, group) -> bool:
     """
     Check if user is in the group.
 
@@ -241,7 +243,9 @@ def render_not_allowed(request):
     return render(request, 'payments/not_allowed.html', {'not': 'allowed'})
 
 
-
+def check_can_anticipate(payment) -> bool:
+    """Check if a payment can be anticipated verifying due_date"""
+    return payment.due_date >= datetime.date.today()
 
 
 
