@@ -179,3 +179,17 @@ LOGGING = {
     }
 
 }
+
+CELERY_BROKER_URL = 'amqp://guest@localhost:5672//'
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+
+
+
+
+
+
+
+
+

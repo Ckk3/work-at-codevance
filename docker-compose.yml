@@ -28,6 +28,14 @@ services:
     networks:
       - codevance-network
 
+  broker_:
+    image: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+    networks:
+      - codevance-network
+  
   web:
     build: .
     #command: python manage.py runserver 0.0.0.0:8000
@@ -42,9 +50,14 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+      - broker
     networks:
       - codevance-network
     tty: true
+
+
+
+
 
 networks: 
   codevance-network:
