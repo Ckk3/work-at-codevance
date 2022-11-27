@@ -3,7 +3,14 @@
 {% block title %}Informações da Antecipacao{% endblock %}
 
 {% block content %}
-<div class="offset-1 col-10 list-div">
+<div>
+    {% if messages %}
+    <ul class="messages">
+        {% for msg in messages %}
+            <li {% if msg.tags %} class="alert alert-{{msg.tags}}"{% endif %}>{{ msg }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <h1>Informações da Antecipacao {{anticipate.id}}</h1>
     <h2>Ração Social: {{payment.provider_social_reason}}</h2>
     <p>Data do pedido de adiantamento: {{anticipate.request_date}}</p>
@@ -12,7 +19,18 @@
     <p>Valor Original: R$ {{anticipate.original_value}}</p>
     <p>Novo Valor: R$ {{anticipate.new_value}}</p>
     <p>Status: {{anticipate.status}}</p>
-    
+    <h2>Mudar Status</h2>
+    <a href="/anticipate/{{anticipate.id}}/accepted">    
+        <div class="anticipate-status accepted">
+            <i class="fas fa-check"></i> Autorizar Antecipacao
+        </div>
+    </a>
+    <a href="/anticipate/{{anticipate.id}}/denied">    
+        <div class="anticipate-status denied">
+            <i class="fas fa-x"></i> Negar Antecipacao
+        </div>
+    </a>
+
 </div>
 
 {% endblock %}

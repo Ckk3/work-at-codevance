@@ -24,6 +24,7 @@ urlpatterns = [
     path('payment/<int:id>', views.payment_view, name='payment-view'),
     path('newpayment/', views.new_payment, name='new-payment'),
     path('anticipate/<int:id>', views.anticipate_view, name='anticipate-view'),
+    path('anticipate/<int:id>/<str:new_status>', views.edit_anticipate_status, name='edit_anticipate_status-view'),
     path('anticipaterequest/<int:id>', views.anticipate_request_view, name='payment-view'),
     path('anticipateinfo/<int:id>', views.anticipate_info_view, name='payment-view'),
 ]

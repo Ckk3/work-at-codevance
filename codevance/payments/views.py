@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from decimal import Decimal
 from .forms import PaymentForm
+from django.contrib import messages
 
 
 
@@ -95,7 +96,6 @@ def anticipate_view(request, id):
 @login_required
 def new_payment(request):
     """View to add a new payment"""
-
     if not check_group(request=request, group='fornecedores'):
         return render_not_allowed(request)
 
@@ -117,6 +117,37 @@ def new_payment(request):
     else:
         form = PaymentForm()
         return render(request, 'payments/add_payment.html', {'form': form})
+
+@login_required
+def edit_anticipate_status(request, id, new_status):
+    """View to change anticipate status"""
+
+    #Check if user has permission to see this page
+    if not check_group(request=request, group='operadores'):
+        return render_not_allowed(request)
+
+    # Get anticipate object
+    anticipate = get_object_or_404(Anticipate, pk=id)
+    payment = get_object_or_404(Payment, pk=anticipate.payment_id)
+    
+    #Change status
+    if new_status == 'accepted':
+        anticipate.status = 'accepted'
+        payment.status = 'accepted'
+        payment.save()
+        anticipate.save()
+        messages.info(request, 'Status changed to "accept" sucessfully')
+    elif new_status == 'denied':
+        anticipate.status = 'denied'
+        payment.status = 'denied'
+        anticipate.save()
+        payment.save()
+        messages.info(request, 'Status changed to "denied" sucessfully')
+    else:
+        #Invalid option
+        messages.error(request, 'Invalid Status Option')
+
+    return redirect(f'/anticipate/{anticipate.id}')
 
 
 @login_required
