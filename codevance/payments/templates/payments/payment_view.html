@@ -24,11 +24,15 @@
             <p>Novo Valor: R$ {{new_value}}</p>
         </div>
     </a></span>
-    <a href="/anticipaterequest/{{payment.id}}">
-        <div class="col-2 add-div">
-            <i class="fas fa-check"></i> Solicitar Antecipação
-        </div>
-    </a>
+    {% if can_anticipate %}
+        <a href="/anticipaterequest/{{payment.id}}">
+            <div class="col-2 add-div">
+                <i class="fas fa-check"></i> Solicitar Antecipação
+            </div>
+        </a>
+    {% else %}
+        <p>Você nao pode mais pedir a antecipação pois já passou a data de vencimento</p>
+    {% endif %}
 </div>
 
 {% endblock %}
