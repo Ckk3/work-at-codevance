@@ -139,7 +139,14 @@ LOGGING = {
     'loggers':{
         'django':{
             'handlers':[
-                'file'
+                'file',
+                'djangoinfo'
+            ],
+            'level': 'DEBUG',
+        },
+        'payment':{
+            'handlers':[
+                'info'
             ],
             'level': 'DEBUG',
         }
@@ -149,6 +156,18 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs/debug.log'),
+            'formatter': 'simpleRe',
+        },
+        'info':{
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/info.log'),
+            'formatter': 'simpleRe',
+        },
+        'djangoinfo':{
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/djangoinfo.log'),
             'formatter': 'simpleRe',
         }
     },
