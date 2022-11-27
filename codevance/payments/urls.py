@@ -27,4 +27,5 @@ urlpatterns = [
     path('anticipate/<int:id>/<str:new_status>', views.edit_anticipate_status, name='edit_anticipate_status-view'),
     path('anticipaterequest/<int:id>', views.anticipate_request_view, name='payment-view'),
     path('anticipateinfo/<int:id>', views.anticipate_info_view, name='payment-view'),
+    path('sendemail', views.send_email, name='send-email'),
 ]

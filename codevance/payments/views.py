@@ -6,10 +6,16 @@ import datetime
 from decimal import Decimal
 from .forms import PaymentForm
 from django.contrib import messages
+from django.shortcuts import HttpResponse
 import logging
 
 #Create logger
 logger = logging.getLogger('payment')
+
+
+def send_email(request):
+    """Send email using celery"""
+    return HttpResponse('Working!')
 
 @login_required
 def redirect_view(request):
