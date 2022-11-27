@@ -6,6 +6,7 @@ import datetime
 from decimal import Decimal
 from .forms import PaymentForm
 from django.contrib import messages
+import logging
 
 
 
@@ -15,8 +16,10 @@ def redirect_view(request):
     """
     # get all user groups
     if check_group(request=request, group='fornecedores'):
+        logging.info('"fornecedor" redirect to /payments')
         return redirect('/payments')
     elif check_group(request=request, group='operadores'):
+        logging.info('"operador" redirect to /anticipates')
         return redirect('/anticipates')
     else:
         return render_not_allowed(request)
@@ -167,7 +170,7 @@ def anticipate_request_view(request, id):
     #get payment
     payment = get_object_or_404(Payment, pk=id, provider=request.user)
 
-    #Check if can anticipate the payment
+    #Check if can anticipate the payment 
     if not check_can_anticipate(payment=payment):
         return render_not_allowed(request)
 

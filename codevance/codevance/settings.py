@@ -133,3 +133,30 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/accounts/login'
+
+LOGGING = {
+    'version':1,
+    'loggers':{
+        'django':{
+            'handlers':[
+                'file'
+            ],
+            'level': 'DEBUG',
+        }
+    },
+    'handlers':{
+        'file':{
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/debug.log'),
+            'formatter': 'simpleRe',
+        }
+    },
+    'formatters': {
+        'simpleRe': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    }
+
+}
