@@ -16,8 +16,8 @@ logger = logging.getLogger('payment')
 
 def send_email(request):
     """Send email using celery"""
-    sleepy(3)
-    return HttpResponse('Working!')
+    sleepy.delay(3)
+    return HttpResponse('<h1>Working!</h1>')
 
 @login_required
 def redirect_view(request):

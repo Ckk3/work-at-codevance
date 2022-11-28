@@ -29,16 +29,18 @@ services:
       - codevance-network
 
   broker:
-    image: rabbitmq
+    image: rabbitmq:3-management-alpine
     restart: always
     ports:
       - "5672:5672"
+      - "15672:15672"
     networks:
       - codevance-network
 
   web:
     build: .
     #command: python manage.py runserver 0.0.0.0:8000
+    command: celery -A codevance worker -l info
     restart: always
     env_file:
       - .env
