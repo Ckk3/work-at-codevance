@@ -26,12 +26,12 @@ def send_email(request, payment, subject):
 
     all_messages = {
         'request': f'The anticipate request to payment {payment.id} with due date to {payment.due_date} has been added and you will receive a awnser soon!',
-        'accepted': f'The anticipate request to payment {payment.id} has been ACCEPTED!\nThe new due date is {payment.due_date} and the new value is {payment.value}',
+        'accepted': f'The anticipate request to payment {payment.id} has been ACCEPTED!\nThe new due date is {payment.due_date} and the new value is R${payment.value}',
         'denied': f'The anticipate request to payment {payment.id} has been DENIED!\nThe due date still {payment.due_date} and the value is R${payment.value}'
     }
 
-    send_email_task.delay(user_email=request.user.email, subject=all_subjects[subject], message=all_messages[subject])
-    send_email_task.delay(user_email=request.user.email, subject='Testtign', message="testingGAIN")
+
+    send_email_task.delay(user_email=payment.provider.email, email_subject=all_subjects[subject], email_message=all_messages[subject])
     logger.info(f'Send email to "funcionario" {request.user.id}')
     return None
 
