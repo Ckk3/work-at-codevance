@@ -14,10 +14,25 @@ from .tasks import send_email_task
 logger = logging.getLogger('payment')
 
 
-def send_email(request):
-    """Send email using celery"""
-    send_email_task(user_email=request.user.email)
-    return HttpResponse('<h1>Working!</h1>')
+@login_required
+def send_email(request, payment, subject):
+    """Send email using celery
+    subject is the type of the email: request, approved or denied"""
+    all_subjects = {
+        'request': 'We receive your anticipate request.',
+        'approved': 'Your anticipate request has been APPROVED',
+        'denied': 'Your anticipate request has been DENIED'
+    }
+
+    all_messages = {
+        'request': f'The anticipate request to payment {payment.id} with due date to {payment.due_date} has been added and you will receive a awnser soon!',
+        'approved': f'The anticipate request to payment {payment.id} has been APPROVED!\nThe new due date is {payment.due_date} and the new value is {payment.value}',
+        'denied': f'The anticipate request to payment {payment.id} has been DENIED!\nThe due date still {payment.due_date} and the value is R${payment.value}'
+    }
+
+    send_email_task.delay(user_email=request.user.email, subject=all_subjects[subject], message=all_messages[subject])
+    logger.info(f'Send email to "funcionario" {request.user.id}')
+    return None
 
 @login_required
 def redirect_view(request):
@@ -132,6 +147,7 @@ def new_payment(request):
             # Add missing data
             new_payment.provider = request.user
             new_payment.old_due_date = new_payment.due_date
+            new_payment.original_value = new_payment.value
             new_payment.save()
             logger.info(f'Saved new payment {new_payment.id} to database')
             #Return to home
@@ -158,6 +174,9 @@ def edit_anticipate_status(request, id, new_status):
     if new_status == 'accepted':
         anticipate.status = 'accepted'
         payment.status = 'accepted'
+        payment.original_value = anticipate.original_value
+        payment.original_value = anticipate.new_value
+        payment.old_due_date = payment.due_date
         payment.due_date = anticipate.new_due_date
         payment.save()
         anticipate.save()

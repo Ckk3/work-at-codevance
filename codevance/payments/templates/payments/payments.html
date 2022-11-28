@@ -18,24 +18,24 @@
 
             {% if payment.status == 'not_requested' %}
             <li class="payment-item not_requested">
-            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.value}} Status: {{payment.status}}</a></span>
 
             {% elif payment.status == 'requested' %}
             <li class="payment-item requested">
-            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.value}} Status: {{payment.status}}</a></span>
 
             {% elif payment.status == 'accepted' %}
             <li class="payment-item accepted">
-            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.value}} Status: {{payment.status}}</a></span>
 
             {% elif payment.status == 'denied' %}
             <li class="payment-item denied">
-            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Status: {{payment.status}}</a></span>
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.value}} Status: {{payment.status}}</a></span>
 
             {% endif %}
         {% else %}
             <li class="payment-item done">
-            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.original_value}} Pago em {{payment.payment_date}}</a></span>
+            <span><a href="/payment/{{payment.id}}">Razao social: {{payment.provider_social_reason}} Vencimento: {{payment.due_date}} Valor: R${{payment.value}} Pago em {{payment.payment_date}}</a></span>
         {% endif %}
         </li>
         {% endfor %}

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="payment-view">
-    <h1>{{payment.provider_social_reason}}  R$ {{payment.original_value}}</h1>
+    <h1>{{payment.provider_social_reason}}  R$ {{payment.value}}</h1>
     <h2>CNPJ {{payment.provider_cnpj}}</h2>
     <p>Data da Emissão: {{payment.emission_date}}</p>
     <p>Data de vencimento: {{payment.due_date}}</p>

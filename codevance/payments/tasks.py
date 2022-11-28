@@ -5,10 +5,10 @@ from codevance.settings import DEFAULT_FROM_EMAIL
 
 
 @shared_task
-def send_email_task(user_email):
+def send_email_task(user_email, subject, message):
     send_mail(
-        subject='Celery Task Worked', 
-        message='This is proof the task worked',
+        subject=subject, 
+        message=message,
         from_email=DEFAULT_FROM_EMAIL,
         recipient_list=[user_email]
         )
