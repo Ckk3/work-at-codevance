@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'codevance.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': 'db',
         'PORT': '5432',
     }
@@ -180,7 +180,7 @@ LOGGING = {
 
 }
 
-CELERY_BROKER_URL = 'amqp://guest@localhost:5672//'
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'

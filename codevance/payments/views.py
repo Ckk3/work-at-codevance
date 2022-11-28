@@ -8,6 +8,7 @@ from .forms import PaymentForm
 from django.contrib import messages
 from django.shortcuts import HttpResponse
 import logging
+from .tasks import sleepy
 
 #Create logger
 logger = logging.getLogger('payment')
@@ -15,6 +16,7 @@ logger = logging.getLogger('payment')
 
 def send_email(request):
     """Send email using celery"""
+    sleepy(3)
     return HttpResponse('Working!')
 
 @login_required
