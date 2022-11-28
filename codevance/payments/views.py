@@ -14,23 +14,24 @@ from .tasks import send_email_task
 logger = logging.getLogger('payment')
 
 
-@login_required
+
 def send_email(request, payment, subject):
     """Send email using celery
-    subject is the type of the email: request, approved or denied"""
+    subject is the type of the email: request, accepted or denied"""
     all_subjects = {
         'request': 'We receive your anticipate request.',
-        'approved': 'Your anticipate request has been APPROVED',
+        'accepted': 'Your anticipate request has been ACCEPTED',
         'denied': 'Your anticipate request has been DENIED'
     }
 
     all_messages = {
         'request': f'The anticipate request to payment {payment.id} with due date to {payment.due_date} has been added and you will receive a awnser soon!',
-        'approved': f'The anticipate request to payment {payment.id} has been APPROVED!\nThe new due date is {payment.due_date} and the new value is {payment.value}',
+        'accepted': f'The anticipate request to payment {payment.id} has been ACCEPTED!\nThe new due date is {payment.due_date} and the new value is {payment.value}',
         'denied': f'The anticipate request to payment {payment.id} has been DENIED!\nThe due date still {payment.due_date} and the value is R${payment.value}'
     }
 
     send_email_task.delay(user_email=request.user.email, subject=all_subjects[subject], message=all_messages[subject])
+    send_email_task.delay(user_email=request.user.email, subject='Testtign', message="testingGAIN")
     logger.info(f'Send email to "funcionario" {request.user.id}')
     return None
 
@@ -183,6 +184,8 @@ def edit_anticipate_status(request, id, new_status):
         # Add to log
         logger.info(f'operator {request.user.id} changed anticipate {id} status to accepted')
         logger.info(f'Changed payment {anticipate.payment_id} status to accepted')
+        # Send email to user
+        send_email(request, payment=payment, subject='accepted')
         #Show message to user
         messages.info(request, 'Status changed to "accept" sucessfully')
     elif new_status == 'denied':
@@ -193,6 +196,8 @@ def edit_anticipate_status(request, id, new_status):
         # Add to log
         logger.info(f'operator {request.user.id} changed anticipate {id} status to denied')
         logger.info(f'Changed payment {anticipate.payment_id} status to denied')
+        # Send email to user
+        send_email(request, payment=payment, subject='denied')
         # Show messahe to user
         messages.info(request, 'Status changed to "denied" sucessfully')
     else:
@@ -235,7 +240,9 @@ def anticipate_request_view(request, id):
     payment.status = 'requested'
     payment.save()
     logger.info(f'Added new anticipate to db, id: {new_anticipate.id}')
-    #messages.info(request, 'Anticipate request done')
+    # Send email to user
+    send_email(request, payment=payment, subject='request')
+    messages.info(request, 'Anticipate request done')
     #Return to home
     return redirect('/')
 
