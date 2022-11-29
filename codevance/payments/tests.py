@@ -1,7 +1,7 @@
 from django.test import TestCase
 from payments.models import Payment, Anticipate
 from django.contrib.auth.models import User
-
+from payments.forms import PaymentForm
 
 
 class TestUsers(TestCase):
@@ -12,18 +12,18 @@ class TestUsers(TestCase):
 
         self.assertTrue(isinstance(forn, User))
     
-    # def test_fornecedor2_superuser(self):
-    #     bah = User.objects.all()
-    #     assert bah == True
-
-    # def test_operador_superuser(self):
-    #     ope = User.objects.get(username='ope')
-    #     assert ope.is_superuser == False
-        
-    # def test_fornecedor1_ingroup(self):
-    #     forn = User.objects.get(username='forn1')
-    #     user_groups = list(forn.groups.values_list('name', flat = True))
-    #     assert 'fornecedores' in user_groups
+    def test_create_form(self):
+        data = {
+            'emission_date': '2022-10-12',
+            'due_date': '2022-10-12',
+            'value': 1425,
+            'provider_social_reason':'Social Rewaosn',
+            'provider_cnpj':'31231234'
+        }
+        form = PaymentForm(data=data)
+        self.assertTrue(form.is_valid())
+    
+    
 
 
 
