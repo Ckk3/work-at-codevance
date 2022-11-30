@@ -2,7 +2,7 @@
 
 Esse repo contém o meu teste [técnico para a Codevance](https://github.com/Ckk3/work-at-codevance/blob/ceb7245439c7c41a15d3f35ec483ef168657cfca/challenge_info.md).
 
-## Como iniciar o projeto
+## Inicie e configure o projeto
 
 1. Tenha docker compose na sua máquina
 2. Acesse o arquivo ***********example.env***********  e coloque o valores de acordo com o seu ambiente, você pode utilizar esse com base:
@@ -35,7 +35,7 @@ Esse repo contém o meu teste [técnico para a Codevance](https://github.com/Ckk
 8. Procure na lista o container que está com o final ***web*** e use o seguinte comando para abrir um temrinal interativo nele
     
     ```jsx
-    docker exec -it <id_do_container> bash
+    docker exec -it id_do_container bash
     ```
     
 9. Dentro do container *web* criado no compose, crie um super usuário utilizando esse comando e seguindo as instruções:
@@ -67,6 +67,29 @@ Esse repo contém o meu teste [técnico para a Codevance](https://github.com/Ckk
 ![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/anticipates.png)
 
 
+## Testes
+
+O programa possui alguns testes, siga as instruções para executá-los
+
+1. Descubra qual é o container que está rodando o django utilizando o comando:
+    
+    ```jsx
+    docker ps
+    ```
+    
+2. Procure na lista o container que está com o final ***web*** e use o seguinte comando para abrir um temrinal interativo nele
+    
+    ```jsx
+    docker exec -it <id_do_container> bash
+    ```
+    
+3. Dentro do container *web* criado no compose, execute os testes utilizando o comando:
+    
+    ```bash
+    python3 manage.py test
+    ```
+    
+    Note que para os testes funcionarem, você deve ter feito o a configuração inicial do projeto.
 
 
 
