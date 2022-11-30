@@ -51,20 +51,20 @@ Esse repo contém o meu teste [técnico para a Codevance](https://github.com/Ckk
 14. Depois, volte para a raiz do projeto em  [http://localhost:8000](http://localhost:8000/admin) , você receberá uma mensagem que diz que você não tem permissão, isso acontece porque estamos logados no usuário admin, Clique na opção SAIR
 15. Efetue o login com o usuário do grupo fornecedor que você criou
     
-    ![Untitled](E:\DEV\work-at-codevance\readme_Images\Untitled 1.png)
+    ![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/login.png)
     
 16. Agora você verá essa página com todos os pagamentos
     
-    ![Untitled]()
+    ![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/payments.png)
     
 17. Quando você adiantar um pagamento, um email será enviado para o funcionário (por isso você deve colocar um email válido na criação do usuário)
 
-![Untitled]()
+![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/email.png)
 
 1. Para ter a utilização sendo operador, é só clicar em sair e entrar com a conta de um operador
 2. Você também têm uma lista com todos os pedidos de antecipação 
 
-![Untitled]()
+![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/anticipates.png)
 
 
 
