@@ -22,8 +22,6 @@ class TestUsers(TestCase):
         }
         form = PaymentForm(data=data)
         self.assertTrue(form.is_valid())
-    
-    
 
 
 

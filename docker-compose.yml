@@ -39,8 +39,10 @@ services:
 
   web:
     build: .
-    #command: python manage.py runserver --insecure 0.0.0.0:8000
-    #command: celery -A codevance worker -l info
+    command: sh -c "python3 manage.py makemigrations &&
+                    python3 manage.py migrate &&
+                    celery -A codevance worker --detach &&
+                    python3 manage.py runserver --insecure 0.0.0.0:8000" 
     restart: always
     env_file:
       - .env
@@ -54,8 +56,6 @@ services:
     networks:
       - codevance-network
     tty: true
-
-
 
 
 
