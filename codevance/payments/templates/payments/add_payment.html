@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Adicionar Pagamento{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Adicionar Pagamento</h1>
+    <h2>Somente pra facilicar a criação de pagamentos para testes</h2>
+    <div class="payment-add-template">
+        <p>Exemplo: </p>
+        <p>Emission Date: 2022-11-25</p>
+        <p>Due Date: 2022-11-25</p>
+        <p>Original Value: 4000</p>
+        <p>Provider social reason: Gerencia Ltda</p>
+        <p>Provider cnpj: 5189745956/1260</p>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-success" value="Create Payment">
+    </form>
+</div>
+
+{% endblock %}

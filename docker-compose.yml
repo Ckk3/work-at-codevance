@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - codevance-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "800:80"
+    depends_on:
+      - db
+    networks:
+      - codevance-network
+
+  broker:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - codevance-network
+
+  web:
+    build: .
+    command: sh -c "python3 manage.py makemigrations &&
+                    python3 manage.py migrate &&
+                    celery -A codevance worker --detach &&
+                    python3 manage.py runserver --insecure 0.0.0.0:8000" 
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./codevance:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - broker
+    networks:
+      - codevance-network
+    tty: true
+
+
+
+networks: 
+  codevance-network:
+    driver: bridge

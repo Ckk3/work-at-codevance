@@ -1,0 +1,46 @@
+.payment-item.done{
+    background-color: rgba(64, 153, 255, 0.315);
+}
+
+
+.payment-item.not_requested{
+    background-color: whitesmoke;
+}
+
+.payment-item.accepted{
+    background-color: rgba(56, 255, 6, 0.253);
+}
+
+.payment-item.requested{
+    background-color: rgb(255, 217, 0);
+}
+
+.payment-item.denied{
+    background-color: rgba(255, 0, 0, 0.192);
+}
+
+.payment-add-template{
+    background-color: aliceblue;
+}
+
+.anticipate-item.accepted{
+    background-color: rgba(56, 255, 6, 0.253);
+}
+
+.anticipate-item.not_reviewed{
+    background-color: rgb(255, 217, 0);
+}
+
+.anticipate-item.denied{
+    background-color: rgba(255, 0, 0, 0.192);
+}
+
+.anticipate-status.accepted{
+    background-color: rgba(56, 255, 6, 0.253);
+}
+
+.anticipate-status.denied{
+    background-color: rgba(255, 0, 0, 0.192);
+}
+
+

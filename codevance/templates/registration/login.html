@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Entrar no Pagamentos{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card auth-card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Entrar no Pagamentos</h4>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{next}}">
+
+                    {{form|crispy}}
+                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                </form>
+                <p>
+                    Quer criar um usuário? Vá na área de <span><a href='/admin'>admin do projeto</a></span> e adicione
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

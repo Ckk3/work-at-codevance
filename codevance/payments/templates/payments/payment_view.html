@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment {{payment.id}}{% endblock %}
+
+{% block content %}
+<div class="payment-view">
+    <h1>{{payment.provider_social_reason}}  R$ {{payment.value}}</h1>
+    <h2>CNPJ {{payment.provider_cnpj}}</h2>
+    <p>Data da Emissão: {{payment.emission_date}}</p>
+    <p>Data de vencimento: {{payment.due_date}}</p>
+    <p>Status: {{payment.status}}</p>
+    <h2>Antecipação</h2>
+    <span><a href="/anticipateinfo/{{payment.id}}">
+        <div class=''>
+
+        </div>
+    </a></span>
+    <span><a>
+        <div class="payment-view anticipate-info">
+            <p>Nova data de vencimento : {{new_due_date}}</p>
+            <p>Dias adiantados: {{days_delta}}</p>
+            <p>Data de vencimento original: {{original_due_date}}</p>
+            <p>Valor Original: R$ {{original_value}}</p>
+            <p>Novo Valor: R$ {{new_value}}</p>
+        </div>
+    </a></span>
+    {% if can_anticipate %}
+        <a href="/anticipaterequest/{{payment.id}}">
+            <div class="col-2 add-div">
+                <i class="fas fa-check"></i> Solicitar Antecipação
+            </div>
+        </a>
+    {% else %}
+        <p>Você nao pode mais pedir a antecipação pois já passou a data de vencimento</p>
+    {% endif %}
+</div>
+
+{% endblock %}

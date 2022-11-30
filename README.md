@@ -1,86 +1,110 @@
-# Trabalhe na Codevance
+ Desafio Técnico Codevance
 
-A [Codevance](https://codevance.com.br) é uma software house que tem como missão otimizar os resultados e gerar valor ao seu negócio utilizando tecnologia como meio.
+Esse repo contém o meu teste [técnico para a Codevance](https://github.com/Ckk3/work-at-codevance/blob/ceb7245439c7c41a15d3f35ec483ef168657cfca/challenge_info.md).
 
-Somos especialistas em Python, nosso time atua todo de forma remota e nossos clientes possuem grandes desafios tecnológicos.
+## Inicie e configure o projeto
 
-Se você:
+1. Tenha docker compose na sua máquina
+2. Acesse o arquivo ***********example.env***********  e coloque o valores de acordo com o seu ambiente, você pode utilizar esse com base:
+    
+    ```jsx
+    POSTGRES_NAME="postgres"
+    POSTGRES_USER="postgres"
+    POSTGRES_PASSWORD="postgres"
+    CELERY_BROKER_URL="amqp://guest:guest@broker:5672//"
+    EMAIL_HOST_USER = ""
+    EMAIL_HOST_PASSWORD = ""
+    DEFAULT_FROM_EMAIL= ""
+    ```
+    
+3. Renomeie o arquivo ***********example.env*********** para *.env*
+4. Execute o docker compose utilizando o seguinte comando
+    
+    ```bash
+    docker-compose up
+    ```
+    
+5. Agora, você já pode acessar o projeto em [http:/localhost:8000](http://localhost:8000), porém vamos terminar a configuração
+6. Todas as informações do banco de dados são excluídas no repositório, então você precisa criar manualmente os grupos e usuários do projeto.
+7. Descubra qual é o container que está rodando o django utlizando o comando:
+    
+    ```jsx
+    docker ps
+    ```
+    
+8. Procure na lista o container que está com o final ***web*** e use o seguinte comando para abrir um temrinal interativo nele
+    
+    ```jsx
+    docker exec -it id_do_container bash
+    ```
+    
+9. Dentro do container *web* criado no compose, crie um super usuário utilizando esse comando e seguindo as instruções:
+    
+    ```bash
+    python3 manage.py createsuperuser
+    ```
+    
+10. Acesse a página de administrador do sistema, vá em [http://localhost:8000/admin](http://localhost:8000/admin) e entre com a conta de super usuario que voce acabou de criar
+11. Vá em *Groups* → ***Add***, e crie um grupo com o nome “operadores” e outro com o nome “fornecedores”. Não precisa adicionar nenhuma permissão
+12. Agora crie um usuário qualquer, adicione no grupo fornecedores e adicione um email
+13. Depois, crie um usuário e o adicione ao grupo operadores
+14. Depois, volte para a raiz do projeto em  [http://localhost:8000](http://localhost:8000/admin) , você receberá uma mensagem que diz que você não tem permissão, isso acontece porque estamos logados no usuário admin, Clique na opção SAIR
+15. Efetue o login com o usuário do grupo fornecedor que você criou
+    
+    ![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/login.png)
+    
+16. Agora você verá essa página com todos os pagamentos
+    
+    ![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/payments.png)
+    
+17. Quando você adiantar um pagamento, um email será enviado para o funcionário (por isso você deve colocar um email válido na criação do usuário)
 
-- Tem sangue no olho e é, ou busca ser, um ótimo programador;
-- Tem interesse em crescer profissionalmente;
-- É organizado, tem disciplina e autonomia para trabalhar do conforto da sua casa;
-- Gosta da linguagem Python ou já utilizou em algum projeto profissional;
+![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/email.png)
 
-Eu te convido a clonar esse repositório, meter a mão na massa e mostrar pra gente as suas qualidades.
+1. Para ter a utilização sendo operador, é só clicar em sair e entrar com a conta de um operador
+2. Você também têm uma lista com todos os pedidos de antecipação 
 
-Temos vagas para todos os perfis. Não é preciso ter experiência e não fazemos nenhum tipo de distinção.
+![Untitled](https://github.com/Ckk3/work-at-codevance/blob/c2c597037f4eda843d52089b3cdb03216670b15e/readme_Images/anticipates.png)
 
-## Como participar
 
-1. Clone este repositório
-1. Siga as instruções abaixo
-1. Suba o projeto em algum lugar (heroku, de preferência)
-1. Envie um e-mail para ronaldo *dot* oliveira *at* codevance *dot* com *dot* br
+## Testes
 
-## Especificações
+O programa possui alguns testes, siga as instruções para executá-los
 
-Você vai desenvolver um sistema de antecipação de pagamentos.
+1. Descubra qual é o container que está rodando o django utilizando o comando:
+    
+    ```jsx
+    docker ps
+    ```
+    
+2. Procure na lista o container que está com o final ***web*** e use o seguinte comando para abrir um temrinal interativo nele
+    
+    ```jsx
+    docker exec -it <id_do_container> bash
+    ```
+    
+3. Dentro do container *web* criado no compose, execute os testes utilizando o comando:
+    
+    ```bash
+    python3 manage.py test
+    ```
+    
+    Note que para os testes funcionarem, você deve ter feito o a configuração inicial do projeto.
 
-Imagine que haja uma série de pagamentos a serem feitos por uma empresa no decorrer dos próximos meses, mas a empresa quer fazer um plano com seus fornecedores para fazer estes pagamentos de forma adiantada, concedendo um desconto relacionado a quantidade de dias de diferença entre a data de vencimento original do pagamento e a nova data de pagamento.
 
-O objetivo é fornecer melhor fluxo de caixa ao fornecedor e rentabilizar o caixa da empresa através dos descontos.
 
-Para descobrir o novo valor a ser pago nesta antecipação, o cálculo a ser feito é:
 
-```
-NOVO_VALOR = VALOR_ORIGINAL - (VALOR_ORIGINAL * ((3% / 30) * DIFERENCA_DE_DIAS))
-```
 
-Vamos a um exemplo prático:
 
-```
-DATA DE VENCIMENTO ORIGINAL = 01/10/2019
-VALOR ORIGINAL = R$ 1.000,00
-NOVA DATA DE VENCIMENTO = 15/09/2019
 
-NOVO VALOR = 1000 - (1000 * ((3% / 30) * 16))
-NOVO VALOR = 1000 - (1000 * 0,016)
-NOVO VALOR = 1000 - 16
 
-NOVO VALOR = R$ 984,00
-```
 
-### Características
 
-- O sistema deve armazenar os pagamentos e suas informações básicas
-  - id do pagamento, data de emissão, data de vencimento, valor original, a qual fornecedor pertence, dados cadastrais básicos deste fornecedor, como razão social e CNPJ.
-- Para um pagamento ser adiantado, o fornecedor deve fazer uma solicitação, então o operador da empresa escolhe se libera a antecipação ou nega a antecipação. Toda essa movimentação deve ficar armazenada em um log.
-  - Essa solicitação pode vir via sistema ou por outras vias. Quando vier por outras vias, o operador da empresa fará a solicitação no sistema.
-- O fornecedor deve ter acesso a uma área, através de autenticação via email e senha, onde ele possa solicitar a antecipação de um pagamento. É necessário também que ele veja todos os pagamentos disponíveis para antecipação, todos os pagamentos aguardando liberação, todos os aprovados e todos os negados.
-  - Importantíssimo que um fornecedor não veja os pagamentos de outro
-- Para cada ação sobre um pagamento (solicitação, liberação, negação) o sistema deve enviar um email ao fornecedor.
-  - Este envio de email deve ser feito de forma assíncrona (`celery` é seu amigo)
-- Caso um pagamento chegue até sua data de vencimento sem ser antecipado, o mesmo deve ser indisponibilizado para operação, mas mantido no histórico.
-  - Fornecedores não podem ver pagamentos indisponibilizados disponíveis para antecipação
-- Deve haver uma API Rest básica com dois endpoints:
-  - Um endpoint que liste as operações de um fornecedor, que estará autenticado via JWT. Este endpoint deve permitir filtro por estado do pagamento (indisponível, disponível, aguardando confirmação, antecipado, negado)
-  - Outro endpoint que será responsável pela solicitação de antecipação de um pagamento. Este endpoint deve receber o identificador do pagamento e, obviamente, um usuário logado só pode solicitar antecipação dos pagamentos associados ao seu usuário.
 
-## Requisitos técnicos
 
-- Utilize Python 3.7 (ou mais recente) como linguagem e PostgreSQL como banco de dados;
-- Utilize um framework (dica: com django é mais fácil);
-- O código deve estar em inglês (commits podem estar em pt-br);
-- O sistema deve estar online, rodando, em algum lugar (dica: com heroku é mais fácil);
-- O sistema deve ter testes automatizados (dica: com pytest é mais fácil);
-- O repositório deve conter documentação sobre como fazer deployment e como testar;
-- Deve conter uma documentação da API;
 
-## Recomendações e dicas
 
-- Caso for utilizar Django, temos [nosso cookiecutter](https://github.com/codevance/cookiecutter-django) que pode servir de ponto de partida (mas não é obrigatório);
-- Use boas práticas de programação;
-- Modele os dados com cuidado;
-- Se preocupe com arquitetura e qualidade de código, não se preocupe com estética (dica: bootstrap é seu amigo).
 
-**Divirta-se!**
+
+
+
